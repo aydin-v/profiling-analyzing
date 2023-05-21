@@ -18,17 +18,17 @@ namespace GameOfLife
         private Canvas drawCanvas;
         private Ellipse[,] cellsVisuals;
 
-        
+
         public Grid(Canvas c)
         {
             drawCanvas = c;
             rnd = new Random();
-            SizeX = (int) (c.Width / 5);
+            SizeX = (int)(c.Width / 5);
             SizeY = (int)(c.Height / 5);
             cells = new Cell[SizeX, SizeY];
             nextGenerationCells = new Cell[SizeX, SizeY];
             cellsVisuals = new Ellipse[SizeX, SizeY];
- 
+
             for (int i = 0; i < SizeX; i++)
                 for (int j = 0; j < SizeY; j++)
                 {
@@ -38,8 +38,7 @@ namespace GameOfLife
 
             SetRandomPattern();
             InitCellsVisuals();
-            UpdateGraphics();
-            
+
         }
 
 
@@ -57,14 +56,18 @@ namespace GameOfLife
 
         void MouseMove(object sender, MouseEventArgs e)
         {
-            var cellVisual = sender as Ellipse;
-            
-            int i = (int) cellVisual.Margin.Left / 5;
-            int j = (int) cellVisual.Margin.Top / 5;
-            
+            //var cellVisual = sender as Ellipse;
+
+            //int i = (int)cellVisual.Margin.Left / 5;
+            //int j = (int)cellVisual.Margin.Top / 5;
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                var cellVisual = sender as Ellipse;
+
+                int i = (int)cellVisual.Margin.Left / 5;
+                int j = (int)cellVisual.Margin.Top / 5;
+
                 if (!cells[i, j].IsAlive)
                 {
                     cells[i, j].IsAlive = true;
@@ -74,13 +77,11 @@ namespace GameOfLife
             }
         }
 
-        public void UpdateGraphics()
+        public void UpdateGraphics(int x, int y)
         {
-            for (int i = 0; i < SizeX; i++)
-                for (int j = 0; j < SizeY; j++)
-                    cellsVisuals[i, j].Fill = cells[i, j].IsAlive
-                                                  ? (cells[i, j].Age < 2 ? Brushes.White : Brushes.DarkGray)
-                                                  : Brushes.Gray;
+            cellsVisuals[x, y].Fill = cells[x, y].IsAlive
+                ? (cells[x, y].Age < 2 ? Brushes.White : Brushes.DarkGray)
+                : Brushes.Gray;
         }
 
         public void InitCellsVisuals()
@@ -98,11 +99,11 @@ namespace GameOfLife
 
                     cellsVisuals[i, j].MouseMove += MouseMove;
                     cellsVisuals[i, j].MouseLeftButtonDown += MouseMove;
-                 }
-            UpdateGraphics();
-                    
+                    UpdateGraphics(i, j);
+                }
+
         }
-        
+
 
         public static bool GetRandomBoolean()
         {
@@ -115,7 +116,7 @@ namespace GameOfLife
                 for (int j = 0; j < SizeY; j++)
                     cells[i, j].IsAlive = GetRandomBoolean();
         }
-        
+
         public void UpdateToNextGeneration()
         {
             for (int i = 0; i < SizeX; i++)
@@ -123,11 +124,10 @@ namespace GameOfLife
                 {
                     cells[i, j].IsAlive = nextGenerationCells[i, j].IsAlive;
                     cells[i, j].Age = nextGenerationCells[i, j].Age;
+                    UpdateGraphics(i, j);
                 }
-
-            UpdateGraphics();
         }
-        
+
 
         public void Update()
         {
@@ -138,7 +138,7 @@ namespace GameOfLife
             {
                 for (int j = 0; j < SizeY; j++)
                 {
-//                    nextGenerationCells[i, j] = CalculateNextGeneration(i,j);          // UNOPTIMIZED
+                    //                    nextGenerationCells[i, j] = CalculateNextGeneration(i,j);          // UNOPTIMIZED
                     CalculateNextGeneration(i, j, ref alive, ref age);   // OPTIMIZED
                     nextGenerationCells[i, j].IsAlive = alive;  // OPTIMIZED
                     nextGenerationCells[i, j].Age = age;  // OPTIMIZED
@@ -158,7 +158,7 @@ namespace GameOfLife
 
             if (alive && count < 2)
                 return new Cell(row, column, 0, false);
-            
+
             if (alive && (count == 2 || count == 3))
             {
                 cells[row, column].Age++;
@@ -167,10 +167,10 @@ namespace GameOfLife
 
             if (alive && count > 3)
                 return new Cell(row, column, 0, false);
-            
+
             if (!alive && count == 3)
                 return new Cell(row, column, 0, true);
-            
+
             return new Cell(row, column, 0, false);
         }
 
