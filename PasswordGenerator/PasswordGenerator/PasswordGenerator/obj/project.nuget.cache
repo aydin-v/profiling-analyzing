@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "hQ5IPFvkRZ90JslxB/ihXEuPQymlSSuhzrzKA3Mgn8cGrPqn/g8V2YzIRM5eX3EnYvEb5g7u9htP3E36ocYy4g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Aydin\\Desktop\\Task\\PasswordGenerator\\PasswordGenerator\\PasswordGenerator\\PasswordGenerator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Aydin\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.16\\microsoft.aspnetcore.cryptography.internal.6.0.16.nupkg.sha512",
+    "C:\\Users\\Aydin\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.16\\microsoft.aspnetcore.cryptography.keyderivation.6.0.16.nupkg.sha512"
+  ],
+  "logs": []
+}
